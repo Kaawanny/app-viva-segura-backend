@@ -9,8 +9,12 @@ class LocalSeguroSeeder extends Seeder
 {
     public function run(): void
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        DB::table('tb_local_seguro')->truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
         DB::table('tb_local_seguro')->insert([
-            // Delegacias da Mulher
+            // Delegacias da Mulher e Distritos
             [
                 'nome'      => '5ª Delegacia de Defesa da Mulher - Leste',
                 'tipo'      => 'delegacia',
@@ -35,16 +39,24 @@ class LocalSeguroSeeder extends Seeder
                 'longitude' => -46.4552,
                 'ativo'     => true,
             ],
-
-            // Centros de apoio
             [
-                'nome'      => 'Casa da Mulher São Miguel Paulista',
-                'tipo'      => 'apoio',
-                'endereco'  => 'Rua Pedro Soares de Andrade, 34 - Vila Rosaria, São Paulo - SP',
-                'latitude'  => -23.4957,
-                'longitude' => -46.4375,
+                'nome'      => '52º Distrito Policial - Parque São Jorge',
+                'tipo'      => 'policia',
+                'endereco'  => 'Rua Sabbado D’Angelo, 46 - Itaquera, São Paulo - SP',
+                'latitude'  => -23.5429,
+                'longitude' => -46.4581,
                 'ativo'     => true,
             ],
+            [
+                'nome'      => '38º Distrito Policial - Vila Matilde',
+                'tipo'      => 'policia',
+                'endereco'  => 'Rua Siqueira Bueno, 2090 - Vila Matilde, São Paulo - SP',
+                'latitude'  => -23.5254,
+                'longitude' => -46.5381,
+                'ativo'     => true,
+            ],
+
+            // Centros de apoio
             [
                 'nome'      => 'Centro de Referência e Cidadania da Mulher - Parada XV',
                 'tipo'      => 'apoio',
@@ -53,8 +65,32 @@ class LocalSeguroSeeder extends Seeder
                 'longitude' => -46.4555,
                 'ativo'     => true,
             ],
+            [
+                'nome'      => 'Casa da Mulher São Miguel Paulista',
+                'tipo'      => 'apoio',
+                'endereco'  => 'R. Pedro Soares de Andrade, 34 - Vila Rosaria, São Paulo - SP',
+                'latitude'  => -23.4953,
+                'longitude' => -46.4366,
+                'ativo'     => true,
+            ],
+            [
+                'nome'      => 'CRAS Itaim Paulista',
+                'tipo'      => 'apoio',
+                'endereco'  => 'R. Valente de Novais, 189 - Itaim Paulista, São Paulo - SP',
+                'latitude'  => -23.5009,
+                'longitude' => -46.3959,
+                'ativo'     => true,
+            ],
+            [
+                'nome'      => 'Centro de Referência da Mulher',
+                'tipo'      => 'apoio',
+                'endereco'  => 'R. Vieira Ravasco, 26 - Cambuci, São Paulo - SP',
+                'latitude'  => -23.5572,
+                'longitude' => -46.6231,
+                'ativo'     => true,
+            ],
 
-            // Estações 
+            // Estações e Terminais
             [
                 'nome'      => 'Estação Corinthians-Itaquera',
                 'tipo'      => 'estacao',
@@ -80,6 +116,14 @@ class LocalSeguroSeeder extends Seeder
                 'ativo'     => true,
             ],
             [
+                'nome'      => 'Estação José Bonifácio',
+                'tipo'      => 'estacao',
+                'endereco'  => 'Av. Nagib Farah Maluf, 1500 - COHAB José Bonifácio, São Paulo - SP',
+                'latitude'  => -23.5393,
+                'longitude' => -46.4318,
+                'ativo'     => true,
+            ],
+            [
                 'nome'      => 'Estação Brás',
                 'tipo'      => 'estacao',
                 'endereco'  => 'Praça Agente Cícero – Brás, São Paulo - SP',
@@ -87,33 +131,46 @@ class LocalSeguroSeeder extends Seeder
                 'longitude' => -46.6163,
                 'ativo'     => true,
             ],
-
-            // Saúde
             [
-                'nome'      => 'Estação USP Leste',
+                'nome'      => 'Estação Penha',
                 'tipo'      => 'estacao',
-                'endereco'  => 'Av. Doutor Assis Ribeiro – Ermelino Matarazzo, São Paulo - SP',
-                'latitude'  => -23.4974,
-                'longitude' => -46.4847,
+                'endereco'  => 'Av. Radial Leste - Penha, São Paulo - SP',
+                'latitude'  => -23.5331,
+                'longitude' => -46.5423,
                 'ativo'     => true,
             ],
             [
-                'nome'      => 'UPA Zona Leste I – Penha',
-                'tipo'      => 'saude',
-                'endereco'  => 'R. Cel. Azevedo Marques, 1 – Penha, SP',
-                'latitude'  => -23.5197,
-                'longitude' => -46.5267,
+                'nome'      => 'Estação Vila Matilde',
+                'tipo'      => 'estacao',
+                'endereco'  => 'Av. Radial Leste - Vila Matilde, São Paulo - SP',
+                'latitude'  => -23.5318,
+                'longitude' => -46.5307,
                 'ativo'     => true,
             ],
             [
-                'nome'      => 'Hospital Tide Setubal',
-                'tipo'      => 'saude',
-                'endereco'  => 'R. São Bernardo do Campo, 92 – Itaquera, SP',
-                'latitude'  => -23.5403,
-                'longitude' => -46.4558,
+                'nome'      => 'Estação Artur Alvim',
+                'tipo'      => 'estacao',
+                'endereco'  => 'Av. Radial Leste - Artur Alvim, São Paulo - SP',
+                'latitude'  => -23.5400,
+                'longitude' => -46.4842,
                 'ativo'     => true,
             ],
-
+            [
+                'nome'      => 'Terminal Cidade Tiradentes',
+                'tipo'      => 'terminal',
+                'endereco'  => 'Rua Sara Kubitscheck, 165 - Cidade Tiradentes, São Paulo - SP',
+                'latitude'  => -23.5991,
+                'longitude' => -46.3984,
+                'ativo'     => true,
+            ],
+            [
+                'nome'      => 'Terminal São Mateus',
+                'tipo'      => 'terminal',
+                'endereco'  => 'Av. Adélia Chohfi, 100 - São Mateus, São Paulo - SP',
+                'latitude'  => -23.6040,
+                'longitude' => -46.4802,
+                'ativo'     => true,
+            ],
         ]);
 
         $this->command->info('✅ Locais seguros inseridos com sucesso!');

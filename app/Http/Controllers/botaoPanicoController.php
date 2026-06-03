@@ -44,12 +44,24 @@ public function store(Request $request)
     }
 
     public function ativos()
-    {
-        $alertas = DB::table('tbalerta')
-            ->where('statusAlerta', 'ativo')
-            ->orderBy('dataHoraAlerta', 'desc')
-            ->get();
+{
+    $alertas = DB::table('tbalerta')
+        ->join(
+            'tbusuaria',
+            'tbalerta.id_usuaria',
+            '=',
+            'tbusuaria.id_usuaria'
+        )
+        ->where('tbalerta.statusAlerta', 'ativo')
+        ->orderBy('tbalerta.dataHoraAlerta', 'desc')
+        ->select(
+            'tbalerta.*',
+            'tbusuaria.nome',
+            'tbusuaria.foto',
+            'tbusuaria.email'
+        )
+        ->get();
 
-        return response()->json($alertas);
-    }
+    return response()->json($alertas);
+}
 }
