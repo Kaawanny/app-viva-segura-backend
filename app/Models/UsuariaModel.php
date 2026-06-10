@@ -23,6 +23,7 @@ protected $fillable = [
     'telefone',
     'id_role',
     'foto',
-    'codigo_convite'
+    'codigo_convite',
+    'push_token'
 ];
 }

@@ -55,6 +55,12 @@ Route::get('/botao-panico-ativos', [botaoPanicoController::class, 'ativos']);
 //meus guardioes 
 Route::post('/enviarConviteGuardiao', [UsuariaControler::class, 'enviarConviteGuardiao']);
 
+// remover convite
+Route::delete('/guardioes/{id_usuaria}/{id_guardiao}', [GuardiaoController::class, 'remover']);
+
+//Rota para o guardião aceitar o convite e notificar a usuária!
+Route::post('/guardiao/aceitar-convite', [GuardiaoController::class, 'aceitarConvite']);
+
 // listar convites
 Route::get('/guardioes/{id_usuaria}', [GuardiaoController::class, 'listar']);
 
@@ -71,3 +77,4 @@ Route::post('/alertas', [AlertaController::class, 'store']);
 Route::post('/rota', [RotaController::class, 'store']);
 Route::get('/rotas/{id_usuaria}', [PontosRotaController::class, 'historico']);
 Route::get('/rotas/{id_rota}/pontos', [PontosRotaController::class, 'pontosDaRota']);
+
