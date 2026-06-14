@@ -8,21 +8,13 @@ use App\Http\Controllers\EnderecoUsuariaController;
 use App\Http\Controllers\LocalController;
 use App\Http\Controllers\BotaoPanicoController;
 use App\Http\Controllers\GuardiaoController;
-
+// Mapa
 use App\Http\Controllers\LocalSeguroController; 
 use App\Http\Controllers\AlertaController; 
 use App\Http\Controllers\PontosRotaController;
- use App\Http\Controllers\RotaController;
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
+use App\Http\Controllers\RotaController;
+use App\Http\Controllers\RotaCompartilhadaController;
+// ------
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -34,7 +26,6 @@ Route::post('/login', 'App\Http\Controllers\UsuariaControler@loginApi');
 
 Route::post('/salvarPesquisaEndereco', 'App\Http\Controllers\EnderecoPesquisaController@storeApi');
 Route::get('/exibirPesquisaEndereco', 'App\Http\Controllers\EnderecoPesquisaController@index');
-
 Route::post('/salvarEndereco', 'App\Http\Controllers\EnderecoUsuariaController@storeApi');
 Route::get('/exibirEndereco', 'App\Http\Controllers\EnderecoUsuariaController@index');
 
@@ -70,11 +61,15 @@ Route::post('/guardioes', [GuardiaoController::class, 'adicionar']);
 // remover convite
 Route::delete('/guardioes/{id_usuaria}/{id_guardiao}', [GuardiaoController::class, 'remover']);
 
-
+// Mapa - Locais seguros, Rota, Compartilhamento de rota e Alertas
 Route::get('/pontos-rota',[LocalSeguroController::class, 'index']);
 Route::get('/alertas', [AlertaController::class, 'index']);
 Route::post('/alertas', [AlertaController::class, 'store']);
 Route::post('/rota', [RotaController::class, 'store']);
 Route::get('/rotas/{id_usuaria}', [PontosRotaController::class, 'historico']);
 Route::get('/rotas/{id_rota}/pontos', [PontosRotaController::class, 'pontosDaRota']);
+Route::post('/rota-compartilhada', [RotaCompartilhadaController::class, 'compartilhar']);
+Route::post('/rota-compartilhada/chegou', [RotaCompartilhadaController::class, 'chegouAoDestino']);
+Route::post('/rota-compartilhada/encerrar', [RotaCompartilhadaController::class, 'encerrar']);
+Route::get('/rota-compartilhada/ativa/{id_guardiao}', [RotaCompartilhadaController::class, 'rotaAtiva']);
 

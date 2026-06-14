@@ -12,7 +12,20 @@ class GuardiaoController extends Controller
     // LISTAR CONVITES
     public function listar($id_usuaria)
     {
-        return GuardiaoConvidado::where('id_usuaria', $id_usuaria)->get();
+        $guardioes = DB::table('guardioes_convidados')
+            ->leftJoin('tbusuaria', 'tbusuaria.email', '=', 'guardioes_convidados.email')
+            ->where('guardioes_convidados.id_usuaria', $id_usuaria)
+            ->select(
+                'guardioes_convidados.id',
+                'guardioes_convidados.id_usuaria',
+                'guardioes_convidados.nome',
+                'guardioes_convidados.email',
+                'tbusuaria.foto',
+                'tbusuaria.id_usuaria as id_guardiao'
+            )
+            ->get();
+
+        return response()->json($guardioes);
     }
 
     // SALVAR CONVITE
