@@ -182,24 +182,4 @@ public function enviarConviteGuardiao(Request $request)
         }
     }
 
-    public function homeGuardiao($idGuardiao)
-    {
-        try {
-
-            $vinculos = VinculoModel::where('id_guardiao', $idGuardiao)
-                ->with('usuaria')
-                ->get();
-
-            return response()->json([
-                'data' => $vinculos
-            ]);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => 'Erro ao buscar dados da home',
-                'details' => $e->getMessage()
-            ], 500);
-        }
-    }
-
 }

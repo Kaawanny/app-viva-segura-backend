@@ -34,7 +34,7 @@ Route::put('/salvarEnderecoAlterado/{idEnderecoUsuaria}', [EnderecoUsuariaContro
 Route::delete('/salvarEnderecoAlterado/{id}', [EnderecoUsuariaController::class, 'destroy']);
 
 //guardiao
-Route::get('/guardiao/home/{id}', [UsuariaControler::class, 'homeGuardiao']);
+Route::get('/guardiao/home/{id}', [RotaCompartilhadaController::class, 'homeGuardiao']);
 
 Route::post('/localizacao', [LocalController::class, 'atualizarLocalizacao']);
 Route::get('/localizacao/{id}', [LocalController::class, 'buscarLocalizacao']);
@@ -69,6 +69,8 @@ Route::post('/rota', [RotaController::class, 'store']);
 Route::get('/rotas/{id_usuaria}', [PontosRotaController::class, 'historico']);
 Route::get('/rotas/{id_rota}/pontos', [PontosRotaController::class, 'pontosDaRota']);
 Route::post('/rota-compartilhada', [RotaCompartilhadaController::class, 'compartilhar']);
+Route::post('/rota-compartilhada/aceitar', [RotaCompartilhadaController::class, 'aceitar']);
+Route::get('/rota-compartilhada/pendentes/{id_guardiao}', [RotaCompartilhadaController::class, 'solicitacoesPendentes']);
 Route::post('/rota-compartilhada/chegou', [RotaCompartilhadaController::class, 'chegouAoDestino']);
 Route::post('/rota-compartilhada/encerrar', [RotaCompartilhadaController::class, 'encerrar']);
 Route::get('/rota-compartilhada/ativa/{id_guardiao}', [RotaCompartilhadaController::class, 'rotaAtiva']);
