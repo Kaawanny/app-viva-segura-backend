@@ -245,4 +245,19 @@ class RotaCompartilhadaController extends Controller
             ], 500);
         }
     }
+
+    // GET /rota-compartilhada/dados/{id_usuaria}
+    public function dadosRota($id_usuaria)
+    {
+        $rota = rotaCompartilhadaModel::where('id_usuaria', $id_usuaria)
+            ->where('status', 'ativa')
+            ->latest()
+            ->first();
+
+        if (!$rota) {
+            return response()->json(['success' => false, 'message' => 'Nenhuma rota ativa.'], 404);
+        }
+
+        return response()->json(['success' => true, 'rota' => $rota]);
+    }
 }

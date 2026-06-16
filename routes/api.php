@@ -68,9 +68,9 @@ Route::get('/rotas/{id_usuaria}', [PontosRotaController::class, 'historico']);
 Route::get('/rotas/{id_rota}/pontos', [PontosRotaController::class, 'pontosDaRota']);
 Route::post('/rota-compartilhada', [RotaCompartilhadaController::class, 'compartilhar']);
 Route::post('/rota-compartilhada/aceitar', [RotaCompartilhadaController::class, 'aceitar']);
-Route::get('/guardiao/home/{id}', [RotaCompartilhadaController::class, 'rotaAtivaHome']);
 Route::get('/rota-compartilhada/pendentes/{id_guardiao}', [RotaCompartilhadaController::class, 'solicitacoesPendentes']);
 Route::post('/rota-compartilhada/chegou', [RotaCompartilhadaController::class, 'chegouAoDestino']);
 Route::post('/rota-compartilhada/encerrar', [RotaCompartilhadaController::class, 'encerrar']);
 Route::get('/rota-compartilhada/ativa/{id_guardiao}', [RotaCompartilhadaController::class, 'rotaAtiva']);
-
+Route::get('/rota-compartilhada/dados/{id_usuaria}', [RotaCompartilhadaController::class, 'dadosRota']);
+Route::get('/guardiao/home/{id}', [RotaCompartilhadaController::class, 'rotaAtivaHome']);
