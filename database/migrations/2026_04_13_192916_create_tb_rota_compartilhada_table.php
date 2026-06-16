@@ -17,7 +17,7 @@ return new class extends Migration
             $table->decimal('destinoLatitude', 10, 7);
             $table->decimal('destinoLongitude', 10, 7);
             $table->string('endereco_destino')->nullable();
-            $table->enum('status', ['ativa', 'encerrada', 'chegou'])->default('ativa'); // Status da usuária 
+            $table->enum('status', ['pendente', 'ativa', 'encerrada', 'chegou'])->default('pendente');
             $table->timestamps();
         });
     }
