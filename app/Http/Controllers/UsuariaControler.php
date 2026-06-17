@@ -82,14 +82,27 @@ class UsuariaControler extends Controller
         $usuaria->save();
 
         if ($request->id_role == 2) {
-            VinculoModel::create([
-                'id_usuaria' => $usuariaEncontrada->id_usuaria,
-                'id_guardiao' => $usuaria->id_usuaria,
-                'dataSolicitacao' => now(),
-                'dataResposta' => now(),
-                'statusVinculo' => 'aceito'
-            ]);
-        }
+    VinculoModel::create([
+        'id_usuaria'      => $usuariaEncontrada->id_usuaria,
+        'id_guardiao'     => $usuaria->id_usuaria,
+        'dataSolicitacao' => now(),
+        'dataResposta'    => now(),
+        'statusVinculo'   => 'aceito'
+    ]);
+
+    // Envia push para a usuária
+    if (!empty($usuariaEncontrada->push_token)) {
+        \Illuminate\Support\Facades\Http::withHeaders([
+            'Accept'       => 'application/json',
+            'Content-Type' => 'application/json',
+        ])->post('https://exp.host/--/api/v2/push/send', [
+            'to'    => $usuariaEncontrada->push_token,
+            'title' => '🛡️ Guardião Confirmado!',
+            'body'  => "Seu guardião {$usuaria->nome} está ativo e te acompanhando.",
+            'sound' => 'default',
+        ]);
+    }
+}
 
         return response()->json([
             'message' => 'Usuária cadastrada com sucesso!',
@@ -181,5 +194,14 @@ public function enviarConviteGuardiao(Request $request)
             ], 500);
         }
     }
+
+    // MÉTODO NOVO — salvar push token
+public function salvarToken(Request $request, $id)
+{
+    UsuariaModel::where('id_usuaria', $id)
+        ->update(['push_token' => $request->push_token]);
+
+    return response()->json(['success' => true]);
+}
 
 }

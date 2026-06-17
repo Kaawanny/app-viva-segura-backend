@@ -73,4 +73,19 @@ class GuardiaoController extends Controller
             'message' => 'Convite aceito com sucesso e usuária notificada!'
         ]);
     }
+
+  public function pendentes($id_usuaria)
+{
+    $pendentes = DB::table('guardioes_convidados')
+        ->where('guardioes_convidados.id_usuaria', $id_usuaria)
+        ->whereNotExists(function($query) use ($id_usuaria) {
+            $query->select(DB::raw(1))
+                ->from('tbVinculo')
+                ->where('tbVinculo.id_usuaria', $id_usuaria);
+        })
+        ->get();
+
+    return response()->json($pendentes);
+}
+
 }

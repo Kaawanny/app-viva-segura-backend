@@ -74,3 +74,7 @@ Route::post('/rota-compartilhada/encerrar', [RotaCompartilhadaController::class,
 Route::get('/rota-compartilhada/ativa/{id_guardiao}', [RotaCompartilhadaController::class, 'rotaAtiva']);
 Route::get('/rota-compartilhada/dados/{id_usuaria}', [RotaCompartilhadaController::class, 'dadosRota']);
 Route::get('/guardiao/home/{id}', [RotaCompartilhadaController::class, 'rotaAtivaHome']);
+
+//notificacao
+Route::post('/usuaria/{id}/salvar-token', [UsuariaControler::class, 'salvarToken']);
+Route::get('/guardioes-pendentes/{id_usuaria}', [GuardiaoController::class, 'pendentes']);
