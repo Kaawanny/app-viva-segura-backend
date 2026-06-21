@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Models\UsuariaModel;
 use App\Models\VinculoModel;
 
@@ -194,7 +195,7 @@ class UsuariaControler extends Controller {
         }
     }
 
-    // Chats entre usuária e guardião
+    // Vínculo entre usuária e guardião
     public function homeGuardiao($idGuardiao) {
         try {
 
@@ -231,5 +232,40 @@ class UsuariaControler extends Controller {
             ], 500);
         }
     }
-    // --------
+
+    // Alteração de senha
+    public function alterarSenha(Request $request, $id)  {
+        $usuaria = UsuariaModel::find($id);
+
+        if (!$usuaria) {
+            return response()->json([
+                'message' => 'Usuária não encontrada.',
+                'id_recebido' => $id
+            ], 404);
+        }
+
+        if (!Hash::check($request->senha_atual, $usuaria->senha)) {
+            return response()->json([
+                'message' => 'Senha atual incorreta.'
+            ], 422);
+        }
+
+        if ($request->senha_nova !== $request->senha_nova_confirmation) {
+            return response()->json([
+                'message' => 'A confirmação da nova senha não confere.'
+            ], 422);
+        }
+
+        if ($request->senha_atual === $request->senha_nova) {
+            return response()->json([
+                'message' => 'A nova senha não pode ser igual à senha atual.'
+            ], 422);
+        }
+
+        $usuaria->senha = Hash::make($request->senha_nova);
+        $usuaria->save();
+        return response()->json([
+            'message' => 'Senha atualizada com sucesso.'
+        ]);
+    } 
 }

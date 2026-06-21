@@ -25,6 +25,7 @@ Route::post('/login', 'App\Http\Controllers\UsuariaControler@loginApi');
 Route::post('/cadastrar-guardiao', [GuardiaoController::class, 'cadastroGuardiao']);
 // Usuária
 Route::put('/usuaria/{id}', [UsuariaControler::class, 'updateApi']);
+Route::put('/usuaria/{id}/senha', [UsuariaControler::class, 'alterarSenha']);
 // Geolocalização
 Route::post('/salvarPesquisaEndereco', 'App\Http\Controllers\EnderecoPesquisaController@storeApi');
 Route::get('/exibirPesquisaEndereco', 'App\Http\Controllers\EnderecoPesquisaController@index');
