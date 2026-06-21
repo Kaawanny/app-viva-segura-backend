@@ -8,13 +8,11 @@ use App\Http\Controllers\EnderecoUsuariaController;
 use App\Http\Controllers\LocalController;
 use App\Http\Controllers\BotaoPanicoController;
 use App\Http\Controllers\GuardiaoController;
-// Mapa
 use App\Http\Controllers\LocalSeguroController; 
 use App\Http\Controllers\AlertaController; 
 use App\Http\Controllers\PontosRotaController;
 use App\Http\Controllers\RotaController;
 use App\Http\Controllers\RotaCompartilhadaController;
-// ------
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -23,42 +21,29 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/usuarios', 'App\Http\Controllers\UsuariaControler@indexApi');
 Route::post('/cadastrar', 'App\Http\Controllers\UsuariaControler@storeApi');
 Route::post('/login', 'App\Http\Controllers\UsuariaControler@loginApi');
-
+// Cadastro  do guardiao
+Route::post('/cadastrar-guardiao', [GuardiaoController::class, 'cadastroGuardiao']);
+// Usuária
+Route::put('/usuaria/{id}', [UsuariaControler::class, 'updateApi']);
+// Geolocalização
 Route::post('/salvarPesquisaEndereco', 'App\Http\Controllers\EnderecoPesquisaController@storeApi');
 Route::get('/exibirPesquisaEndereco', 'App\Http\Controllers\EnderecoPesquisaController@index');
 Route::post('/salvarEndereco', 'App\Http\Controllers\EnderecoUsuariaController@storeApi');
 Route::get('/exibirEndereco', 'App\Http\Controllers\EnderecoUsuariaController@index');
-
-Route::put('/usuaria/{id}', [UsuariaControler::class, 'updateApi']);
 Route::put('/salvarEnderecoAlterado/{idEnderecoUsuaria}', [EnderecoUsuariaController::class, 'update']);
 Route::delete('/salvarEnderecoAlterado/{id}', [EnderecoUsuariaController::class, 'destroy']);
-
-//guardiao
+// Geolocalização do Guardião
 Route::post('/localizacao', [LocalController::class, 'atualizarLocalizacao']);
 Route::get('/localizacao/{id}', [LocalController::class, 'buscarLocalizacao']);
-
-//botao
+// Botao SOS
 Route::post('/botao-panico', [botaoPanicoController::class, 'store']);
 Route::get('/botao-panico-ativos', [botaoPanicoController::class, 'ativos']);
-
-//meus guardioes 
+// Convite - vínculo
 Route::post('/enviarConviteGuardiao', [UsuariaControler::class, 'enviarConviteGuardiao']);
-
-// remover convite
-Route::delete('/guardioes/{id_usuaria}/{id_guardiao}', [GuardiaoController::class, 'remover']);
-
-//Rota para o guardião aceitar o convite e notificar a usuária!
 Route::post('/guardiao/aceitar-convite', [GuardiaoController::class, 'aceitarConvite']);
-
-// listar convites
 Route::get('/guardioes/{id_usuaria}', [GuardiaoController::class, 'listar']);
-
-// salvar convite
 Route::post('/guardioes', [GuardiaoController::class, 'adicionar']);
-
-// remover convite
 Route::delete('/guardioes/{id_usuaria}/{id_guardiao}', [GuardiaoController::class, 'remover']);
-
 // Mapa - Locais seguros, Rota, Compartilhamento de rota e Alertas
 Route::get('/pontos-rota',[LocalSeguroController::class, 'index']);
 Route::get('/alertas', [AlertaController::class, 'index']);
@@ -74,3 +59,11 @@ Route::post('/rota-compartilhada/encerrar', [RotaCompartilhadaController::class,
 Route::get('/rota-compartilhada/ativa/{id_guardiao}', [RotaCompartilhadaController::class, 'rotaAtiva']);
 Route::get('/rota-compartilhada/dados/{id_usuaria}', [RotaCompartilhadaController::class, 'dadosRota']);
 Route::get('/guardiao/home/{id}', [RotaCompartilhadaController::class, 'rotaAtivaHome']);
+// Chats
+Route::get('/mensagens/{usuario}/{guardiao}', [MensagemController::class, 'conversa']);
+Route::post('/mensagens', [MensagemController::class, 'store']);
+Route::get('/usuaria/home/{id}', [UsuariaControler::class, 'homeUsuaria']);
+Route::get('/guardiao/chat/{id}', [GuardiaoController::class, 'chat']);
+// Notificações
+Route::post('/usuaria/{id}/salvar-token', [UsuariaControler::class, 'salvarToken']);
+Route::get('/guardioes-pendentes/{id_usuaria}', [GuardiaoController::class, 'pendentes']);

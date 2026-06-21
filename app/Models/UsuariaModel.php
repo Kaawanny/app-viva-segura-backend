@@ -13,17 +13,17 @@ class UsuariaModel extends Model
 
     protected $primaryKey = 'id_usuaria';
 
-protected $fillable = [
-    'id_usuaria',
-    'nome',
-    'cpf',
-    'email',
-    'senha',
-    'dataNasc',
-    'telefone',
-    'id_role',
-    'foto',
-    'codigo_convite',
-    'push_token'
-];
+    protected $fillable = [
+        'id_usuaria',
+        'nome',
+        'cpf',
+        'email',
+        'senha',
+        'dataNasc',
+        'telefone',
+        'id_role',
+        'foto',
+        'codigo_convite',
+        'push_token'
+    ];
 }

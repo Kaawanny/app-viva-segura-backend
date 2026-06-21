@@ -6,22 +6,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\alertaModel;
 
-class AlertaController extends Controller
-{
-    public function index(Request $request)
-    {
+class AlertaController extends Controller {
+    public function index(Request $request) {
         $lat  = $request->query('latitude');
         $lng  = $request->query('longitude');
         $raio = $request->query('raio', 5); 
-
         if (!$lat || !$lng) {
             return response()->json(['error' => 'Latitude e longitude são obrigatórios.'], 422);
         }
 
-        $alertas = DB::table('tbAlerta')
+        $alertas = DB::table('tbalerta')
             ->select(
                 'id_alerta as id',
-'descricao',
+                'desc',
                 'latitude',
                 'longitude',
                 'statusAlerta',
@@ -57,12 +54,11 @@ class AlertaController extends Controller
     }
 
     /**  Cria um novo alerta acionado pela usuária. */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $request->validate([
             'id_usuaria'    => 'required|integer',
             'id_tipoAlerta' => 'required|integer',
-'descricao' => $request->desc ?? '',
+            'desc' => $request->desc ?? '',
             'latitude'      => 'required|numeric',
             'longitude'     => 'required|numeric',
         ]);
@@ -70,7 +66,7 @@ class AlertaController extends Controller
         $alerta = alertaModel::create([
             'id_usuaria'    => $request->id_usuaria,
             'id_tipoAlerta' => $request->id_tipoAlerta,
-'descricao' => $request->desc ?? '',
+            'desc' => $request->desc ?? '',
             'latitude'      => $request->latitude,
             'longitude'     => $request->longitude,
             'statusAlerta'  => 1,

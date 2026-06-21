@@ -13,5 +13,4 @@ class roleModel extends Model
 
     public $fillable = ['id','nomeRole1','created_at','updated_at'];
 
-    //public $timestamps = false;
 }
