@@ -4,118 +4,86 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use  App\Models\EnderecoUsuariaModel;
-class EnderecoUsuariaController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     */
-public function index()
-{
-    try {
-        $enderecos = EnderecoUsuariaModel::all();
 
-        return response()->json([
-            'data' => $enderecos
-        ], 200);
-
-    } catch (\Exception $e) {
-        return response()->json([
-            'error' => 'Erro ao buscar endereços',
-            'details' => $e->getMessage()
-        ], 500);
-    }
-}
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+class EnderecoUsuariaController extends Controller {
+    
+    public function index($id_usuaria)
     {
-        //
+        try {
+            $enderecos = EnderecoUsuariaModel::where('id_usuaria', $id_usuaria)->get();
+
+            return response()->json([
+                'data' => $enderecos
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Erro ao buscar endereço',
+                'details' => $e->getMessage()
+            ], 500);
+        }
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-public function storeApi(Request $request)
-{
-    try {
-
-        $enderecoUsuaria = new EnderecoUsuariaModel();
-
-        $enderecoUsuaria->enderecoUsuaria = $request->enderecoUsuaria;
-        $enderecoUsuaria->complementoEnderecoUsuaria = $request->complementoEnderecoUsuaria;
-        $enderecoUsuaria->descricaoEnderecoUsuaria = $request->descricaoEnderecoUsuaria;
-
-        $enderecoUsuaria->save();
-
-        return response()->json([
-            'message' => 'Endereço salvo com sucesso',
-            'data' => $enderecoUsuaria
-        ], 201);
-
-    } catch (\Exception $e) {
-
-        return response()->json([
-            'error' => 'Erro ao salvar endereço',
-            'details' => $e->getMessage()
-        ], 500);
-    }
-}
-
-public function update(Request $request, $id)
-{
-    try {
-
-        $endereco = EnderecoUsuariaModel::findOrFail($id);
-
-        $endereco->update([
-            'enderecoUsuaria' => $request->enderecoUsuaria,
-            'complementoEnderecoUsuaria' => $request->complementoEnderecoUsuaria,
-            'descricaoEnderecoUsuaria' => $request->descricaoEnderecoUsuaria
-        ]);
-
-        return response()->json([
-            'message' => 'Endereço atualizado com sucesso',
-            'data' => $endereco
-        ], 200);
-
-    } catch (\Exception $e) {
-
-        return response()->json([
-            'error' => 'Erro ao atualizar',
-            'details' => $e->getMessage()
-        ], 500);
-    }
-}
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    
+    public function storeApi(Request $request)
     {
-        //
+        try {
+            $request->validate([
+                'id_usuaria' => 'required',
+                'endereco' => 'required',
+                'descricao' => 'required',
+            ]);
+
+            $enderecoUsuaria = new EnderecoUsuariaModel();
+
+            $enderecoUsuaria->id_usuaria = $request->id_usuaria;
+            $enderecoUsuaria->endereco = $request->endereco;
+            $enderecoUsuaria->complemento = $request->complemento;
+            $enderecoUsuaria->descricao = $request->descricao;
+            $enderecoUsuaria->latitude = $request->latitude;
+            $enderecoUsuaria->longitude = $request->longitude;
+            $enderecoUsuaria->save();
+
+            return response()->json([
+                'message' => 'Endereço salvo com sucesso',
+                'data' => $enderecoUsuaria
+            ], 201);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Erro ao salvar endereço',
+                'details' => $e->getMessage()
+            ], 500);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            $endereco = EnderecoUsuariaModel::findOrFail($id);
+            $endereco->update([
+                'endereco' => $request->endereco,
+                'complemento' => $request->complemento,
+                'descricao' => $request->descricao,
+                'latitude' => $request->latitude,
+                'longitude' => $request->longitude,
+            ]);
+
+            return response()->json([
+                'message' => 'Endereço atualizado com sucesso',
+                'data' => $endereco
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Erro ao atualizar',
+                'details' => $e->getMessage()
+            ], 500);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-  
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         try {
-
         $endereco = EnderecoUsuariaModel::findOrFail($id);
         $endereco->delete();
 
@@ -124,7 +92,6 @@ public function update(Request $request, $id)
         ], 200);
 
     } catch (\Exception $e) {
-
         return response()->json([
             'error' => 'Erro ao deletar',
             'details' => $e->getMessage()

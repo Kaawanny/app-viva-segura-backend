@@ -13,6 +13,7 @@ use App\Http\Controllers\AlertaController;
 use App\Http\Controllers\PontosRotaController;
 use App\Http\Controllers\RotaController;
 use App\Http\Controllers\RotaCompartilhadaController;
+use App\Http\Controllers\MensagemController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -30,7 +31,7 @@ Route::put('/usuaria/{id}/senha', [UsuariaControler::class, 'alterarSenha']);
 Route::post('/salvarPesquisaEndereco', 'App\Http\Controllers\EnderecoPesquisaController@storeApi');
 Route::get('/exibirPesquisaEndereco', 'App\Http\Controllers\EnderecoPesquisaController@index');
 Route::post('/salvarEndereco', 'App\Http\Controllers\EnderecoUsuariaController@storeApi');
-Route::get('/exibirEndereco', 'App\Http\Controllers\EnderecoUsuariaController@index');
+Route::get('/exibirEndereco/{id_usuaria}', [EnderecoUsuariaController::class, 'index']);
 Route::put('/salvarEnderecoAlterado/{idEnderecoUsuaria}', [EnderecoUsuariaController::class, 'update']);
 Route::delete('/salvarEnderecoAlterado/{id}', [EnderecoUsuariaController::class, 'destroy']);
 // Geolocalização do Guardião
@@ -68,3 +69,4 @@ Route::get('/guardiao/chat/{id}', [GuardiaoController::class, 'chat']);
 // Notificações
 Route::post('/usuaria/{id}/salvar-token', [UsuariaControler::class, 'salvarToken']);
 Route::get('/guardioes-pendentes/{id_usuaria}', [GuardiaoController::class, 'pendentes']);
+Route::get('/usuaria/home/{id}', [UsuariaControler::class, 'homeUsuaria']);

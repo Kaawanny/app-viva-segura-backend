@@ -127,6 +127,12 @@ class UsuariaControler extends Controller {
         }
     }
 
+    public function salvarToken(Request $request, $id) {
+        UsuariaModel::where('id_usuaria', $id)
+            ->update(['push_token' => $request->push_token]);
+        return response()->json(['success' => true]);
+    }
+
     public function loginApi(Request $request) {
         $usuaria = UsuariaModel::where('email', $request->email)->first();
         if (!$usuaria || !Hash::check($request->senha, $usuaria->senha)) {
