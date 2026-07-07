@@ -57,7 +57,7 @@ class UsuariaControler extends Controller {
             $guardiao->email = $dadosGuardiao['email'];
             $guardiao->senha = Hash::make(Str::random(10));
             $guardiao->cpf = null;
-            $guardiao->telefone = 'null';
+            $guardiao->telefone = null  ;
             $guardiao->dataNasc = null;
             $guardiao->foto = null;
             $guardiao->id_role = 2;

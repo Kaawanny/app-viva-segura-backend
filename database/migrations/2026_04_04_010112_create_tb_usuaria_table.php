@@ -19,9 +19,7 @@ return new class extends Migration
             $table->string('senha');
             $table->date('dataNasc');
             $table->string('telefone')->unique();
-            
             $table->string('codigo_convite')->unique();
-            
             $table->foreignId('id_role')->constrained('tbRole', 'id_role');
             $table->timestamps();
         });
